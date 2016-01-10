@@ -1,0 +1,211 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6349586C-D260-486E-B3C2-98AEB2A69B4A}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TermRewritingSystem_js</RootNamespace>
+    <AssemblyName>TermRewritingSystem_js</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="README" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Collections\ArrayExtensions.js" />
+    <Content Include="Collections\HashSet.js" />
+    <Content Include="index.htm" />
+    <Content Include="Interpreter\Entities\AstToTrsConverterExtensions.js" />
+    <Content Include="Interpreter\Entities\Keywords\TrsNativeKeyword.js" />
+    <Content Include="Interpreter\Entities\Terms\TrsAtom.js" />
+    <Content Include="Interpreter\Entities\Terms\TrsReductionRule.js" />
+    <Content Include="Interpreter\Entities\Terms\TrsTerm.js" />
+    <Content Include="Interpreter\Entities\Terms\TrsTermBase.js" />
+    <Content Include="Interpreter\Entities\Terms\TrsTermProduct.js" />
+    <Content Include="Interpreter\Entities\Terms\TrsVariable.js" />
+    <Content Include="Interpreter\Entities\TrsBase.js" />
+    <Content Include="Interpreter\Entities\TrsProgramBlock.js" />
+    <Content Include="Interpreter\Entities\TrsStatement.js" />
+    <Content Include="Interpreter\Entities\TrsToTrsTermBaseConverterExtensions.js" />
+    <Content Include="Interpreter\Entities\TypeDefinitions\TrsLimitStatement.js" />
+    <Content Include="Interpreter\Entities\TypeDefinitions\TrsTypeDefinition.js" />
+    <Content Include="Interpreter\Entities\TypeDefinitions\TrsTypeDefinitionAtom.js" />
+    <Content Include="Interpreter\Entities\TypeDefinitions\TrsTypeDefinitionTerm.js" />
+    <Content Include="Interpreter\Entities\TypeDefinitions\TrsTypeDefinitionTermBase.js" />
+    <Content Include="Interpreter\Entities\TypeDefinitions\TrsTypeDefinitionTypeName.js" />
+    <Content Include="Interpreter\Entities\TypeDefinitions\TrsTypeDefinitionVariable.js" />
+    <Content Include="Interpreter\Execution\Equation.js" />
+    <Content Include="Interpreter\Execution\Interpreter.js" />
+    <Content Include="Interpreter\Execution\InterpreterEvaluationTerm.js" />
+    <Content Include="Interpreter\Execution\InterpreterMessageType.js" />
+    <Content Include="Interpreter\Execution\InterpreterResult.js" />
+    <Content Include="Interpreter\Execution\InterpreterResultMessage.js" />
+    <Content Include="Interpreter\Execution\InterpreterTerm.js" />
+    <Content Include="Interpreter\Execution\InterpreterType.js" />
+    <Content Include="Interpreter\Execution\InterpreterTypeChecker.js" />
+    <Content Include="Interpreter\Execution\ITrsNativeFunction.js" />
+    <Content Include="Interpreter\Execution\ITrsUnifierCalculation.js" />
+    <Content Include="Interpreter\Execution\MguCalculation.js" />
+    <Content Include="Interpreter\Execution\Substitution.js" />
+    <Content Include="Interpreter\Execution\UnificationResult.js" />
+    <Content Include="Interpreter\Validators\TrsProgramBlockValidator.js" />
+    <Content Include="Interpreter\Validators\TrsReductionRuleValidator.js" />
+    <Content Include="Interpreter\Validators\TrsTermBaseValidator.js" />
+    <Content Include="Interpreter\Validators\TrsValidatorBase.js" />
+    <Content Include="jQuery\jquery-1.7.2.min.js" />
+    <Content Include="jQuery\jquery.caret.1.02.js" />
+    <Content Include="Parser\AbstractSyntaxTree\AstBase.js" />
+    <Content Include="Parser\AbstractSyntaxTree\AstListResult.js" />
+    <Content Include="Parser\AbstractSyntaxTree\AstProgramBlock.js" />
+    <Content Include="Parser\AbstractSyntaxTree\AstStatement.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Keywords\AstLimitKeyword.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Keywords\AstNativeKeyword.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Keywords\AstToKeyword.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Keywords\AstTypeKeyword.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Keywords\IAstKeyword.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Terms\AstArgumentList.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Terms\AstConstant.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Terms\AstNumber.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Terms\AstReductionRule.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Terms\AstString.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Terms\AstTerm.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Terms\AstTermBase.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Terms\AstTermProduct.js" />
+    <Content Include="Parser\AbstractSyntaxTree\Terms\AstVariable.js" />
+    <Content Include="Parser\AbstractSyntaxTree\TypeDefinitions\AstLimitStatement.js" />
+    <Content Include="Parser\AbstractSyntaxTree\TypeDefinitions\AstTypeDefinitionAtom.js" />
+    <Content Include="Parser\AbstractSyntaxTree\TypeDefinitions\AstTypeDefinitionName.js" />
+    <Content Include="Parser\AbstractSyntaxTree\TypeDefinitions\AstTypeDefinitionStatement.js" />
+    <Content Include="Parser\AbstractSyntaxTree\TypeDefinitions\AstTypeDefinitionTerm.js" />
+    <Content Include="Parser\AbstractSyntaxTree\TypeDefinitions\AstTypeDefinitionTermBase.js" />
+    <Content Include="Parser\AbstractSyntaxTree\TypeDefinitions\AstTypeDefinitionVariable.js" />
+    <Content Include="Parser\Grammer\BaseParser.js" />
+    <Content Include="Parser\Grammer\KeywordParser.js" />
+    <Content Include="Parser\Grammer\LimitStatement.js" />
+    <Content Include="Parser\Grammer\ListParser.js" />
+    <Content Include="Parser\Grammer\ParseResult.js" />
+    <Content Include="Parser\Grammer\ProgramBlockParser.js" />
+    <Content Include="Parser\Grammer\ReductionRuleParser.js" />
+    <Content Include="Parser\Grammer\StatementParser.js" />
+    <Content Include="Parser\Grammer\TermParser.js" />
+    <Content Include="Parser\Grammer\TermProductParser.js" />
+    <Content Include="Parser\Grammer\TypeDefinitionParser.js" />
+    <Content Include="Parser\Grammer\TypeDefinitionTermParser.js" />
+    <Content Include="Parser\Grammer\TypeDefinitionTypeNameParser.js" />
+    <Content Include="Parser\Grammer\TypeDefinitionVariableParser.js" />
+    <Content Include="Parser\Tokenization\Keywords.js" />
+    <Content Include="Parser\Tokenization\ParseRegexes.js" />
+    <Content Include="Parser\Tokenization\Token.js" />
+    <Content Include="Parser\Tokenization\TokenizationResult.js" />
+    <Content Include="Parser\Tokenization\Tokenizer.js" />
+    <Content Include="Parser\Tokenization\TokenType.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>50265</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:50265/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

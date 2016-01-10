@@ -1,0 +1,514 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+<!--/*
+This program is an implementation of the Term Rewriting Language, or TRL. 
+In that sense it is also a specification for TRL by giving a reference
+implementation. It contains a parser and interpreter.
+
+Copyright (C) 2012 Wikus Coetser, 
+Contact information on my blog: http://coffeesmudge.blogspot.com/
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+*/-->
+
+
+    <meta http-equiv="Cache-Control" content="no-cache"/>
+    <meta http-equiv="Expires" content="0"/>
+
+    <title>TRL Test Page</title>
+    
+    <script src="jQuery/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="jQuery/jquery.caret.1.02.js" type="text/javascript"></script>
+
+    <!-- Collections -->
+    <script src="Collections/ArrayExtensions.js" type="text/javascript"></script>
+    <script src="Collections/HashSet.js" type="text/javascript"></script>
+
+    <!-- Tokenizer -->
+    <script src="Parser/Tokenization/Keywords.js" type="text/javascript"></script>
+    <script src="Parser/Tokenization/ParseRegexes.js" type="text/javascript"></script>
+    <script src="Parser/Tokenization/TokenType.js" type="text/javascript"></script>
+    <script src="Parser/Tokenization/Token.js" type="text/javascript"></script>
+    <script src="Parser/Tokenization/TokenizationResult.js" type="text/javascript"></script>
+    <script src="Parser/Tokenization/Tokenizer.js" type="text/javascript"></script>
+
+    <!-- Grammer parser -->
+    <script src="Parser/AbstractSyntaxTree/Keywords/IAstKeyword.js" type="text/ecmascript"></script>
+    <script src="Parser/AbstractSyntaxTree/AstBase.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Keywords/AstLimitKeyword.js" type="text/ecmascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Keywords/AstNativeKeyword.js" type="text/ecmascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Keywords/AstToKeyword.js" type="text/ecmascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Keywords/AstTypeKeyword.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/AstListResult.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/AstProgramBlock.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/AstStatement.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Terms/AstArgumentList.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Terms/AstTermBase.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Terms/AstConstant.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Terms/AstNumber.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Terms/AstReductionRule.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Terms/AstString.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Terms/AstTerm.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Terms/AstTermProduct.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/Terms/AstVariable.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/TypeDefinitions/AstTypeDefinitionStatement.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/TypeDefinitions/AstTypeDefinitionTermBase.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/TypeDefinitions/AstLimitStatement.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/TypeDefinitions/AstTypeDefinitionAtom.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/TypeDefinitions/AstTypeDefinitionName.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/TypeDefinitions/AstTypeDefinitionTerm.js" type="text/javascript"></script>
+    <script src="Parser/AbstractSyntaxTree/TypeDefinitions/AstTypeDefinitionVariable.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/ParseResult.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/BaseParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/KeywordParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/ListParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/TypeDefinitionTypeNameParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/TypeDefinitionVariableParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/TypeDefinitionTermParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/TypeDefinitionParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/LimitStatement.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/TermParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/TermProductParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/ReductionRuleParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/StatementParser.js" type="text/javascript"></script>
+    <script src="Parser/Grammer/ProgramBlockParser.js" type="text/javascript"></script>
+
+    <!-- Interpreter Entities -->
+    <script src="Interpreter/Entities/TrsBase.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TrsStatement.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/Terms/TrsTermBase.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/Keywords/TrsNativeKeyword.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/Terms/TrsAtom.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/Terms/TrsReductionRule.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/Terms/TrsTerm.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/Terms/TrsTermProduct.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/Terms/TrsVariable.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TypeDefinitions/TrsTypeDefinitionTermBase.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TypeDefinitions/TrsLimitStatement.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TypeDefinitions/TrsTypeDefinition.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TypeDefinitions/TrsTypeDefinitionAtom.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TypeDefinitions/TrsTypeDefinitionTerm.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TypeDefinitions/TrsTypeDefinitionTypeName.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TypeDefinitions/TrsTypeDefinitionVariable.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TrsProgramBlock.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/AstToTrsConverterExtensions.js" type="text/javascript"></script>
+    <script src="Interpreter/Entities/TrsToTrsTermBaseConverterExtensions.js" type="text/javascript"></script>
+
+    <!-- Interpeter -->
+    <script src="Interpreter/Validators/TrsValidatorBase.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/InterpreterMessageType.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/InterpreterResultMessage.js" type="text/javascript"></script>
+    <script src="Interpreter/Validators/TrsTermBaseValidator.js" type="text/javascript"></script>
+    <script src="Interpreter/Validators/TrsReductionRuleValidator.js" type="text/javascript"></script>
+    <script src="Interpreter/Validators/TrsProgramBlockValidator.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/Equation.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/UnificationResult.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/ITrsNativeFunction.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/ITrsUnifierCalculation.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/InterpreterTerm.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/InterpreterEvaluationTerm.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/InterpreterResult.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/MguCalculation.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/Interpreter.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/InterpreterType.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/InterpreterTypeChecker.js" type="text/javascript"></script>
+    <script src="Interpreter/Execution/Substitution.js" type="text/javascript"></script>
+
+    <style type="text/css">
+      
+      .error 
+      {
+        padding:5px;
+        background-color:#FFAAAA;
+        color:Black;
+        font-weight:bold;
+      }
+      
+      #btnExecute
+      {
+        margin-top:20px;
+        margin-bottom:20px;
+      }
+      
+      .information  
+      {        
+        color:Black;
+      }     
+           
+      #divOuter
+      {
+        padding:20px;
+        background-color:White;
+        font-size:10pt;
+        font-family:Courier;
+        text-align:left;
+      }
+     
+      
+    </style>
+
+</head>
+<body>
+
+  <script type="text/javascript">
+
+    var solver = "type $var_or_num = $TrsNumber | $TrsVariable;" +
+"type $arith = add($var_or_num, $var_or_num)" +
+"            | sub($var_or_num, $var_or_num) " +
+"            | mul($var_or_num, $var_or_num) " +
+"            | div($TrsVariable, $TrsNumber);" +
+"limit :x to $TrsVariable;" +
+"limit :y,:c to $TrsNumber;" +
+"limit :a,:b to $TrsNumber;" +
+"limit :exp_l to $TrsNumber;" +
+"limit :exp_r to $arith;" +
+"[lhs(:exp_l),rhs(:exp_r)] => eq(:exp_l,:exp_r);" +
+"eq(:y,add(:x,:c)) => eq(sub(:y,:c),:x);" +
+"eq(:y,add(:c,:x)) => eq(sub(:y,:c),:x);" +
+"eq(:y,sub(:x,:c)) => eq(add(:y,:c),:x);" +
+"eq(:y,sub(:c,:x)) => eq(add(mul(-1,:y),:c),:x);" +
+"eq(:y,mul(:x,:c)) => eq(div(:y,:c),:x);" +
+"eq(:y,mul(:c,:x)) => eq(div(:y,:c),:x);" +
+"eq(:y,div(:x,:c)) => eq(mul(:y,:c),:x);" +
+"add(:a,:b) => native;" +
+"sub(:a,:b) => native;" +
+"mul(:a,:b) => native;" +
+"div(:a,:b) => native;";
+
+    LogType = {
+      Information: "information",
+      Error: "error"
+    };
+
+    GetCustomUnifiers = function () {
+      var unifier = function () {
+        var parser = new Parser.Grammer.ProgramBlockParser();
+        var progIn = parser.Parse(solver);
+        var astIn = Interpreter.Entities.AstToTrsConverterExtensions.Convert(progIn.AstResult);
+        this.interpreter = new Interpreter.Execution.Interpreter(astIn, GetNatives());
+
+        this.GetUnifier = function (termHead, matchTerm) {
+          var result = new Interpreter.Execution.UnificationResult();
+          result.Succeed = false;
+          // Check input
+          var sRhs = new Interpreter.Execution.Substitution();
+          sRhs.Variable = new Interpreter.Entities.Terms.TrsVariable("exp_r");
+          sRhs.SubstitutionTerm = termHead;
+          var sLhs = new Interpreter.Execution.Substitution();
+          sLhs.Variable = new Interpreter.Entities.Terms.TrsVariable("exp_l");
+          sLhs.SubstitutionTerm = matchTerm;
+          if (!this.interpreter.GetTypeChecker().IsSubstitutionValid(sLhs)
+              || !this.interpreter.GetTypeChecker().IsSubstitutionValid(sRhs)) {
+            return result;
+          }
+          // Load problem
+          this.interpreter.ClearExecutionCache();
+          this.interpreter.LoadTerms([
+            new Interpreter.Entities.Terms.TrsTerm("rhs", [termHead]),
+            new Interpreter.Entities.Terms.TrsTerm("lhs", [matchTerm])
+          ]);
+          // Solve
+          while (this.interpreter.ExecuteRewriteStep()) { };
+          // Extract answer
+          var runResults = this.interpreter.GetCurrentRewriteResult();
+          for (var i = 0; i < runResults.ProgramOut.Statements.length; i++) {
+            var stm = runResults.ProgramOut.Statements[i];
+            if (stm instanceof Interpreter.Entities.Terms.TrsTerm
+              && stm.Name == "eq"
+              && stm.Arguments.length == 2
+              && stm.Arguments[0] instanceof Interpreter.Entities.Terms.TrsNumber
+              && stm.Arguments[1] instanceof Interpreter.Entities.Terms.TrsVariable) {
+              result.Succeed = true;
+              result.Unifier = new Array();
+              var retSub = new Interpreter.Execution.Substitution();
+              retSub.Variable = stm.Arguments[1];
+              retSub.SubstitutionTerm = stm.Arguments[0];
+              result.Unifier.push(retSub);
+            }
+          }
+          return result;
+        };
+      }
+      return [new unifier()];
+    };
+
+    // Native functions: plugin arithmatic for interpreter
+    GetNatives = function () {
+      var arithmatic = {
+        Evaluate: function (evalTerm) {
+          if (!(evalTerm instanceof Interpreter.Entities.Terms.TrsTerm)) return evalTerm;
+          if (evalTerm.Arguments.length != 2) return evalTerm;
+          if (!(evalTerm.Arguments[0] instanceof Interpreter.Entities.Terms.TrsNumber)
+            || !(evalTerm.Arguments[1] instanceof Interpreter.Entities.Terms.TrsNumber)) return evalTerm;
+          var lhs = parseFloat(evalTerm.Arguments[0].Value);
+          var rhs = parseFloat(evalTerm.Arguments[1].Value);
+          var ans = 0.0;
+          switch (evalTerm.Name) {
+            case "add": { ans = lhs + rhs; break; }
+            case "sub": { ans = lhs - rhs; break; }
+            case "mul": { ans = lhs * rhs; break; }
+            case "div": { if (rhs == 0) { return evalTerm; } ans = lhs / rhs; break; }
+            default: return evalTerm;
+          }
+          return new Interpreter.Entities.Terms.TrsNumber(ans.toString());
+        }
+      };
+      return [arithmatic];
+    };
+
+    function CheckExists(strObjName) {
+      if (!(eval("typeof (" + strObjName + ") != \"undefined\""))) WriteLine("Error: " + strObjName + " not found", LogType.Error);
+    }
+
+    function Write(strMessage, cssClassName) {
+      $("#debugOut").append($(document.createElement("span")).html(strMessage));
+      $("#debugOut").find("span:last").addClass(cssClassName).css("display: line");
+    }
+
+    function WriteLine(strMessage, cssClassName) {
+      $("#debugOut").append($(document.createElement("div")).html(strMessage));
+      $("#debugOut").find("div:last").addClass(cssClassName).css("display: block");
+    }
+
+    function WriteProgramToOutput(interpreterResult) {
+      var codeOut = new String();
+      codeOut += "// Terms\r";
+      for (var termKey in interpreterResult.ProgramOut.Statements) {
+        var term = interpreterResult.ProgramOut.Statements[termKey];
+        if (term instanceof Interpreter.Entities.Terms.TrsTermBase) {
+          codeOut += term.toString() + ";\r";
+        }
+      }
+      codeOut += "\r// Type Declarations\r";
+      for (var termKey in interpreterResult.ProgramOut.Statements) {
+        var term = interpreterResult.ProgramOut.Statements[termKey];
+        if (term instanceof Interpreter.Entities.TypeDefinitions.TrsTypeDefinition) {
+          codeOut += term.toString() + ";\r";
+        }
+      }
+      codeOut += "\r// Limit Statements\r";
+      for (var termKey in interpreterResult.ProgramOut.Statements) {
+        var term = interpreterResult.ProgramOut.Statements[termKey];
+        if (term instanceof Interpreter.Entities.TypeDefinitions.TrsLimitStatement) {
+          codeOut += term.toString() + ";\r";
+        }
+      }
+      codeOut += "\r// Program Rules\r";
+      for (var termKey in interpreterResult.ProgramOut.Statements) {
+        var term = interpreterResult.ProgramOut.Statements[termKey];
+        if (term instanceof Interpreter.Entities.Terms.TrsReductionRule) {
+          codeOut += term.toString() + ";\r";
+        }
+      }
+      $("#codeIn").val("");
+      $("#codeIn").val(codeOut);
+    }
+
+    function Execute() {
+//      try {
+        var tokenizer = new Parser.Tokenization.Tokenizer();
+        var tokenResults = tokenizer.Tokenize($("#codeIn").val());
+        $("#debugOut").html("");
+        if (!tokenResults.Succeed) {
+          WriteLine("Tokenization Error: " + tokenResults.ErrorMessage, LogType.Error);
+        }
+        else {
+          WriteLine("Tokenization Succeeded", LogType.Information);
+          var parser = new Parser.Grammer.ProgramBlockParser();
+          var ast = parser.Parse($("#codeIn").val());
+          if (!ast.GetSucceed()) {
+            var errPos = ast.StartPosition >= ast.SourceTokens.length ? ast.SourceTokens.Count - 1 : ast.StartPosition;
+            WriteLine("Parsing error: " + ast.ErrorMessage, LogType.Error)
+            if (ast.SourceTokens.length > 0) WriteLine("Parsing error start position: " + tokenResults.Tokens[errPos].From, LogType.Error)
+          }
+          else {
+            var programBlock = Interpreter.Entities.AstToTrsConverterExtensions.Convert(ast.AstResult);
+            WriteLine("Parsing Succeeded", LogType.Information);
+            var interpreter = new Interpreter.Execution.Interpreter(programBlock, GetNatives(), GetCustomUnifiers());
+            if (interpreter.ValidationMessages.length == 0) WriteLine("Validations: No validation messages, everything should work :)", LogType.Information);
+            for (var i = 0; i < interpreter.ValidationMessages.length; i++) {
+              var msg = interpreter.ValidationMessages[i];
+              if (msg.MessageType == Interpreter.Execution.InterpreterMessageType.Error) WriteLine("Validations: " + msg.toString(), LogType.Error);
+              else WriteLine("Validations: " + msg.toString(), LogType.Information);
+            }
+            if (interpreter.hasError) return;
+
+            if (interpreter.ExecuteRewriteStep()) {
+              WriteProgramToOutput(interpreter.GetCurrentRewriteResult());
+            }
+            else {
+              WriteLine("No further rewriting took place.", LogType.Information);
+              WriteProgramToOutput(interpreter.GetCurrentRewriteResult());
+            }
+          }
+        }
+//      }
+//      catch (err) {
+//        $("#debugOut").html("");
+//        WriteLine("Exception: " + err.message, LogType.Error);
+//      }
+    }
+
+    function DebugTRL() {
+      try {
+
+        // Collections
+        CheckExists("Collections.ArrayExtensions");
+        CheckExists("Collections.HashSet");
+        
+        // Tokenization
+        CheckExists("Parser.Tokenization.Keywords");
+        CheckExists("Parser.Tokenization.ParseRegexes");
+        CheckExists("Parser.Tokenization.TokenType");
+        CheckExists("Parser.Tokenization.Token");
+        CheckExists("Parser.Tokenization.TokenizationResult");
+        CheckExists("Parser.Tokenization.Tokenizer");
+        
+        // Parser
+        CheckExists("Parser.AbstractSyntaxTree.Keywords.IAstKeyword");
+        CheckExists("Parser.AbstractSyntaxTree.AstBase");
+        CheckExists("Parser.AbstractSyntaxTree.Keywords.AstLimitKeyword");
+        CheckExists("Parser.AbstractSyntaxTree.Keywords.AstNativeKeyword");
+        CheckExists("Parser.AbstractSyntaxTree.Keywords.AstToKeyword");
+        CheckExists("Parser.AbstractSyntaxTree.Keywords.AstTypeKeyword");
+        CheckExists("Parser.AbstractSyntaxTree.AstListResult");
+        CheckExists("Parser.AbstractSyntaxTree.AstProgramBlock");
+        CheckExists("Parser.AbstractSyntaxTree.AstStatement");
+        CheckExists("Parser.AbstractSyntaxTree.Terms.AstArgumentList");
+        CheckExists("Parser.AbstractSyntaxTree.Terms.AstTermBase");
+        CheckExists("Parser.AbstractSyntaxTree.Terms.AstConstant");
+        CheckExists("Parser.AbstractSyntaxTree.Terms.AstNumber");
+        CheckExists("Parser.AbstractSyntaxTree.Terms.AstReductionRule");
+        CheckExists("Parser.AbstractSyntaxTree.Terms.AstString");
+        CheckExists("Parser.AbstractSyntaxTree.Terms.AstTerm");
+        CheckExists("Parser.AbstractSyntaxTree.Terms.AstTermProduct");
+        CheckExists("Parser.AbstractSyntaxTree.Terms.AstVariable");
+        CheckExists("Parser.AbstractSyntaxTree.TypeDefinitions.AstTypeDefinitionStatement");
+        CheckExists("Parser.AbstractSyntaxTree.TypeDefinitions.AstTypeDefinitionTermBase");
+        CheckExists("Parser.AbstractSyntaxTree.TypeDefinitions.AstLimitStatement");
+        CheckExists("Parser.AbstractSyntaxTree.TypeDefinitions.AstTypeDefinitionAtom");
+        CheckExists("Parser.AbstractSyntaxTree.TypeDefinitions.AstTypeDefinitionName");
+        CheckExists("Parser.AbstractSyntaxTree.TypeDefinitions.AstTypeDefinitionTerm");
+        CheckExists("Parser.AbstractSyntaxTree.TypeDefinitions.AstTypeDefinitionVariable");
+        CheckExists("Parser.Grammer.BaseParser");
+        CheckExists("Parser.Grammer.ParseResult");
+        CheckExists("Parser.Grammer.KeywordParser");
+        CheckExists("Parser.Grammer.ListParser");
+        CheckExists("Parser.Grammer.TypeDefinitionTypeNameParser");
+        CheckExists("Parser.Grammer.TypeDefinitionVariableParser");
+        CheckExists("Parser.Grammer.TypeDefinitionParser");
+        CheckExists("Parser.Grammer.LimitStatement");
+        CheckExists("Parser.Grammer.TypeDefinitionTermParser");
+        CheckExists("Parser.Grammer.TermParser");
+        CheckExists("Parser.Grammer.TermProductParser");
+        CheckExists("Parser.Grammer.ReductionRuleParser");
+        CheckExists("Parser.Grammer.StatementParser");
+        CheckExists("Parser.Grammer.ProgramBlockParser");
+
+        // Interpeter entities
+        CheckExists("Interpreter.Entities.TrsBase");
+        CheckExists("Interpreter.Entities.TrsStatement");
+        CheckExists("Interpreter.Entities.Terms.TrsTermBase");
+        CheckExists("Interpreter.Entities.Keywords.TrsNativeKeyword");
+        CheckExists("Interpreter.Entities.Terms.TrsAtom");
+        CheckExists("Interpreter.Entities.Terms.TrsTerm");
+        CheckExists("Interpreter.Entities.Terms.TrsReductionRule");
+        CheckExists("Interpreter.Entities.Terms.TrsTermProduct");
+        CheckExists("Interpreter.Entities.Terms.TrsVariable");
+        CheckExists("Interpreter.Entities.TypeDefinitions.TrsTypeDefinitionTermBase");
+        CheckExists("Interpreter.Entities.TypeDefinitions.TrsLimitStatement");
+        CheckExists("Interpreter.Entities.TypeDefinitions.TrsTypeDefinition");
+        CheckExists("Interpreter.Entities.TypeDefinitions.TrsTypeDefinitionAtom");
+        CheckExists("Interpreter.Entities.TypeDefinitions.TrsTypeDefinitionTerm");
+        CheckExists("Interpreter.Entities.TypeDefinitions.TrsTypeDefinitionTypeName");
+        CheckExists("Interpreter.Entities.TypeDefinitions.TrsTypeDefinitionVariable");
+        CheckExists("Interpreter.Entities.TrsProgramBlock");
+        CheckExists("Interpreter.Entities.AstToTrsConverterExtensions.Convert");
+        CheckExists("Interpreter.Entities.TrsToTrsTermBaseConverterExtensions");
+        
+        // Interpreter
+        CheckExists("Interpreter.Validators.TrsValidatorBase");
+        CheckExists("Interpreter.Execution.InterpreterMessageType");
+        CheckExists("Interpreter.Execution.InterpreterResultMessage");
+        CheckExists("Interpreter.Validators.TrsTermBaseValidator");
+        CheckExists("Interpreter.Validators.TrsReductionRuleValidator");
+        CheckExists("Interpreter.Validators.TrsProgramBlockValidator");
+        CheckExists("Interpreter.Execution.Equation");
+        CheckExists("Interpreter.Execution.UnificationResult");
+        CheckExists("Interpreter.Execution.ITrsNativeFunction");
+        CheckExists("Interpreter.Execution.ITrsUnifierCalculation");
+        CheckExists("Interpreter.Execution.MguCalculation");
+        CheckExists("Interpreter.Execution.InterpreterTerm");
+        CheckExists("Interpreter.Execution.InterpreterEvaluationTerm");
+        CheckExists("Interpreter.Execution.Interpreter");
+        CheckExists("Interpreter.Execution.InterpreterType");
+        CheckExists("Interpreter.Execution.InterpreterTypeChecker");
+        CheckExists("Interpreter.Execution.InterpreterResult");
+        CheckExists("Interpreter.Execution.Substitution");        
+
+        $("#debugOut").width($("#codeIn").width());
+        $("#btnExecute").click(Execute);
+        var caretFunc = function () { $("#caretStart").text("Position = " + ($(this).caret().start)); };
+        $("#codeIn").keyup(caretFunc);
+        $("#codeIn").click(caretFunc);
+        $("#codeIn").focus(caretFunc);
+        $("#codeIn").keydown(caretFunc);
+      }
+      catch (err) {
+        WriteLine("Error: " + err.message, LogType.Error);
+      }
+    }
+
+    $(document).ready(DebugTRL);
+
+  </script>
+
+
+  <div id="divOuter">
+
+<textarea id="codeIn" style="display:block" rows="20" cols="120">
+
+// :x should unify to 3, y to 4. should produce tree(3,5)
+water(1,1);
+water(3,4);
+house(4,4);
+
+[water(:x,:y), house(add(:x,1),:y)] => tree(:x,add(:y,1));
+house(:x,:y) => house_processed(:x,:y);
+water(:x,:y) => water_processed(:x,:y);
+
+// Native
+limit :a,:b to $TrsNumber;
+add(:a,:b) => native;
+mul(:a,:b) => native;
+sub(:a,:b) => native;
+div(:a,:b) => native;
+
+</textarea>
+<div><span id="caretStart" style="font-size:8pt">Move caret to text to see position.</span></div>
+
+  <button id="btnExecute">Execute Rewrite Step</button>
+  <div id="debugOut"></div>
+  </div>
+
+<hr />
+<div style="display:block">
+<span style="color: Gray; font-size:8pt; text-align:right; float:right">This site uses the <a href="http://archive.plugins.jquery.com/project/jCaret">jQueryt Caret Plugin</a>, which is under the MIT license. <br />
+It also uses the jQuery library, license info at <a href="http://jquery.org/license">http://jquery.org/license</a>. <br />
+This site is Copyright 2012 by Wikus Coetser, under GPL v3: <br /> <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>. See source code for full license.</span>
+</div>
+</body>
+</html>
